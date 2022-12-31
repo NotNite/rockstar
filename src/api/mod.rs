@@ -5,6 +5,7 @@ mod keyboard;
 mod mouse;
 mod screen;
 mod sound;
+mod system;
 
 #[derive(Clone, Debug)]
 pub struct Rockstar {
@@ -12,6 +13,7 @@ pub struct Rockstar {
     pub screen: screen::Screen,
     pub keyboard: keyboard::Keyboard,
     pub sound: sound::Sound,
+    pub system: system::System,
 }
 
 impl Rockstar {
@@ -21,6 +23,7 @@ impl Rockstar {
             screen: screen::Screen,
             keyboard: keyboard::Keyboard::new(),
             sound: sound::Sound,
+            system: system::System,
         }
     }
 }
@@ -31,6 +34,7 @@ impl UserData for Rockstar {
         fields.add_field_method_get("screen", |_, rockstar| Ok(rockstar.screen.clone()));
         fields.add_field_method_get("keyboard", |_, rockstar| Ok(rockstar.keyboard.clone()));
         fields.add_field_method_get("sound", |_, rockstar| Ok(rockstar.sound.clone()));
+        fields.add_field_method_get("system", |_, rockstar| Ok(rockstar.system.clone()));
     }
 
     fn add_methods<'lua, M: mlua::UserDataMethods<'lua, Self>>(methods: &mut M) {

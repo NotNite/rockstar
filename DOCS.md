@@ -38,6 +38,10 @@ rockstar APIs reside under `rockstar` in the global table.
 - `rockstar.sound.play(path: string)` - play the sound file at `path` on the default output device
   - this runs in another thread, so while it won't blok, you won't get an error if it fails
 
+### rockstar.system
+
+- `rockstar.system.os: string` - the operating system rockstar is running on
+
 ## custom types
 
 ### CaptureData
