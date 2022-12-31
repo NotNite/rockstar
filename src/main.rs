@@ -7,12 +7,17 @@ use std::{
 };
 
 mod api;
+mod repl;
 mod util;
 
 #[derive(Parser)]
 struct Args {
     /// The path to your Lua script
     script: PathBuf,
+
+    /// Enter a REPL after evaluating the script
+    #[clap(short, long)]
+    repl: bool,
 }
 
 fn setup_lua() -> anyhow::Result<mlua::Lua> {
@@ -55,7 +60,24 @@ async fn main() -> anyhow::Result<()> {
 
     let script = std::fs::read_to_string(&args.script)?;
     lua.load(&script).exec_async().await?;
-    api::events::run_event_loop(rockstar, lua).await;
+
+    let lua = Arc::new(Mutex::new(lua));
+
+    let mut futures = Vec::new();
+
+    let lua_event_loop = Arc::clone(&lua);
+    futures.push(tokio::task::spawn(async move {
+        api::events::run_event_loop(rockstar, lua_event_loop).await;
+    }));
+
+    if args.repl {
+        let lua_repl = Arc::clone(&lua);
+        futures.push(tokio::task::spawn(async move {
+            repl::run_repl(lua_repl).await;
+        }));
+    }
+
+    futures::future::join_all(futures).await;
 
     Ok(())
 }

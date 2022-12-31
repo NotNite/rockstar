@@ -38,7 +38,9 @@ impl<'lua> ToLua<'lua> for EventDispatch {
     }
 }
 
-pub fn dispatch_event(event: EventDispatch, lua: &Lua) {
+pub fn dispatch_event(event: EventDispatch, lua: &Arc<Mutex<Lua>>) {
+    let lua = lua.lock().unwrap();
+
     let str_name = match event {
         EventDispatch::MousePress(_) => "mouse_press",
         EventDispatch::MouseRelease(_) => "mouse_release",
@@ -65,7 +67,7 @@ pub fn dispatch_event(event: EventDispatch, lua: &Lua) {
     }
 }
 
-pub async fn run_event_loop(rockstar: Arc<Mutex<Rockstar>>, lua: Lua) {
+pub async fn run_event_loop(rockstar: Arc<Mutex<Rockstar>>, lua: Arc<Mutex<Lua>>) {
     dispatch_event(EventDispatch::Ready, &lua);
 
     rdev::listen(move |event| {
