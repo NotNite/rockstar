@@ -7,6 +7,7 @@ rockstar APIs reside under `rockstar` in the global table.
 ## rockstar
 
 - `rockstar.sleep(ms: number)` - sleep for `ms` milliseconds
+  - this will block, so be careful!
 - `rockstar.on(event: string, callback: function)` - register a callback for an event
   - see the events below
   - the callback will get one argument, which is a table of data
@@ -52,6 +53,10 @@ one of `1` (left), `2` (right), or `3` (middle)
 a string matching the [rdev::Key](https://docs.rs/rdev/latest/rdev/enum.Key.html) enum
 
 ## events
+
+### ready
+
+(the table passed to the callback is empty)
 
 ### mouse_press
 

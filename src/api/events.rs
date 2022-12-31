@@ -12,6 +12,7 @@ pub enum EventDispatch {
 
     KeyPress(rdev::Key),
     KeyRelease(rdev::Key),
+    Ready,
 }
 
 impl<'lua> ToLua<'lua> for EventDispatch {
@@ -30,6 +31,7 @@ impl<'lua> ToLua<'lua> for EventDispatch {
                 let name = serde_variant::to_variant_name(&key).unwrap_or("unknown");
                 table.set("key", name)?;
             }
+            Self::Ready => {}
         }
 
         Ok(mlua::Value::Table(table))
@@ -43,6 +45,7 @@ pub fn dispatch_event(event: EventDispatch, lua: &Lua) {
         EventDispatch::MouseMove(_, _) => "mouse_move",
         EventDispatch::KeyPress(_) => "key_press",
         EventDispatch::KeyRelease(_) => "key_release",
+        EventDispatch::Ready => "ready",
     };
 
     let registry = lua
@@ -58,6 +61,8 @@ pub fn dispatch_event(event: EventDispatch, lua: &Lua) {
 }
 
 pub async fn run_event_loop(rockstar: Arc<Mutex<Rockstar>>, lua: Lua) {
+    dispatch_event(EventDispatch::Ready, &lua);
+
     rdev::listen(move |event| {
         //println!("{:?}", event);
         let button_to_u8 = |button: Button| match button {

@@ -30,8 +30,8 @@ impl UserData for Rockstar {
     }
 
     fn add_methods<'lua, M: mlua::UserDataMethods<'lua, Self>>(methods: &mut M) {
-        methods.add_async_function("sleep", |_, ms: u64| async move {
-            tokio::time::sleep(std::time::Duration::from_millis(ms)).await;
+        methods.add_function("sleep", |_, ms: u64| {
+            std::thread::sleep(std::time::Duration::from_millis(ms));
             Ok(())
         });
 
