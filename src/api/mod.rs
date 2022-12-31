@@ -4,12 +4,14 @@ pub mod events;
 mod keyboard;
 mod mouse;
 mod screen;
+mod sound;
 
 #[derive(Clone, Debug)]
 pub struct Rockstar {
     pub mouse: mouse::Mouse,
     pub screen: screen::Screen,
     pub keyboard: keyboard::Keyboard,
+    pub sound: sound::Sound,
 }
 
 impl Rockstar {
@@ -18,6 +20,7 @@ impl Rockstar {
             mouse: mouse::Mouse::new(),
             screen: screen::Screen,
             keyboard: keyboard::Keyboard,
+            sound: sound::Sound,
         }
     }
 }
@@ -27,6 +30,7 @@ impl UserData for Rockstar {
         fields.add_field_method_get("mouse", |_, rockstar| Ok(rockstar.mouse.clone()));
         fields.add_field_method_get("screen", |_, rockstar| Ok(rockstar.screen.clone()));
         fields.add_field_method_get("keyboard", |_, rockstar| Ok(rockstar.keyboard.clone()));
+        fields.add_field_method_get("sound", |_, rockstar| Ok(rockstar.sound.clone()));
     }
 
     fn add_methods<'lua, M: mlua::UserDataMethods<'lua, Self>>(methods: &mut M) {

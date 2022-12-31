@@ -29,6 +29,11 @@ rockstar APIs reside under `rockstar` in the global table.
 
 - `rockstar.keyboard.press(key: Key)` - press a key
 
+### rockstar.sound
+
+- `rockstar.sound.play(path: string)` - play the sound file at `path` on the default output device
+  - this runs in another thread, so while it won't blok, you won't get an error if it fails
+
 ## custom types
 
 ### CaptureData
