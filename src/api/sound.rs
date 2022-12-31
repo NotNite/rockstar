@@ -1,5 +1,5 @@
 use mlua::UserData;
-use rodio::{cpal::traits::HostTrait, Device, DeviceTrait, OutputStream, Source};
+use rodio::{OutputStream, Source};
 
 #[derive(Clone, Debug)]
 pub struct Sound;
