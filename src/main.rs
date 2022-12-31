@@ -11,7 +11,7 @@ mod util;
 
 #[derive(Parser)]
 struct Args {
-    // The path to your Lua script
+    /// The path to your Lua script
     script: PathBuf,
 }
 
