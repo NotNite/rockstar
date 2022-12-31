@@ -48,9 +48,14 @@ pub fn dispatch_event(event: EventDispatch, lua: &Lua) {
         EventDispatch::Ready => "ready",
     };
 
-    let registry = lua
-        .named_registry_value::<_, mlua::Table>("events")
-        .unwrap();
+    let registry = lua.named_registry_value::<_, mlua::Table>("events");
+
+    if registry.is_err() {
+        // no events were ever registered, return
+        return;
+    }
+
+    let registry = registry.unwrap();
     let this_event = registry.get::<_, mlua::Table>(str_name);
     if let Ok(this_event) = this_event {
         for i in 1..=this_event.len().unwrap() {
