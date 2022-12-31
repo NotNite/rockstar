@@ -71,7 +71,7 @@ impl UserData for Mouse {
                 x: value,
                 y: mouse.mouse_y,
             })
-            .unwrap();
+            .map_err(mlua::Error::external)?;
             mouse.mouse_x = value;
 
             Ok(())
@@ -98,9 +98,9 @@ impl UserData for Mouse {
                 _ => return Ok(()),
             };
 
-            simulate(&EventType::ButtonPress(button)).unwrap();
+            simulate(&EventType::ButtonPress(button)).map_err(mlua::Error::external)?;
             //tokio::time::sleep(std::time::Duration::from_millis(10)).await;
-            simulate(&EventType::ButtonRelease(button)).unwrap();
+            simulate(&EventType::ButtonRelease(button)).map_err(mlua::Error::external)?;
 
             Ok(())
         });

@@ -27,7 +27,7 @@ impl<'lua> ToLua<'lua> for EventDispatch {
                 table.set("y", y)?;
             }
             Self::KeyPress(key) | Self::KeyRelease(key) => {
-                let name = serde_variant::to_variant_name(&key).unwrap();
+                let name = serde_variant::to_variant_name(&key).unwrap_or("unknown");
                 table.set("key", name)?;
             }
         }
