@@ -7,6 +7,7 @@ use std::{
 };
 
 mod api;
+mod util;
 
 #[derive(Parser)]
 struct Args {

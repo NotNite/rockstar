@@ -28,7 +28,7 @@ impl<'lua> ToLua<'lua> for EventDispatch {
                 table.set("y", y)?;
             }
             Self::KeyPress(key) | Self::KeyRelease(key) => {
-                let name = serde_variant::to_variant_name(&key).unwrap_or("unknown");
+                let name = crate::util::key_to_string(key);
                 table.set("key", name)?;
             }
             Self::Ready => {}
@@ -109,10 +109,18 @@ pub async fn run_event_loop(rockstar: Arc<Mutex<Rockstar>>, lua: Lua) {
                 dispatch_event(event, &lua);
             }
             EventType::KeyPress(key) => {
+                let mut rockstar = rockstar.lock().unwrap();
+                rockstar.keyboard.pressed_keys.push(key);
+
+                drop(rockstar);
                 let event = EventDispatch::KeyPress(key);
                 dispatch_event(event, &lua);
             }
             EventType::KeyRelease(key) => {
+                let mut rockstar = rockstar.lock().unwrap();
+                rockstar.keyboard.pressed_keys.retain(|&k| k != key);
+
+                drop(rockstar);
                 let event = EventDispatch::KeyRelease(key);
                 dispatch_event(event, &lua);
             }

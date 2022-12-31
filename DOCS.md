@@ -30,6 +30,7 @@ rockstar APIs reside under `rockstar` in the global table.
 
 ### rockstar.keyboard
 
+- `rockstar.keyboard.pressed_keys: table` - a table of `Key`s that are currently pressed on the keyboard
 - `rockstar.keyboard.press(key: Key)` - press a key
 
 ### rockstar.sound

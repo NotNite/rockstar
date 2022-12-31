@@ -19,7 +19,7 @@ impl Rockstar {
         Self {
             mouse: mouse::Mouse::new(),
             screen: screen::Screen,
-            keyboard: keyboard::Keyboard,
+            keyboard: keyboard::Keyboard::new(),
             sound: sound::Sound,
         }
     }
