@@ -38,6 +38,8 @@ jobs:
     name: Linux builds
     runs-on: ubuntu-latest
     steps:
+      - name: Install dependencies
+        run: sudo apt-get update -y && sudo apt-get install -y libx11-dev libxi-dev libxtst-dev libxrandr-dev
       - uses: actions/checkout@v2
         with:
           submodules: recursive
