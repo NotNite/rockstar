@@ -23,6 +23,9 @@ rockstar APIs reside under `rockstar` in the global table.
 - `rockstar.mouse.right_pressed: boolean` - whether the right mouse button is pressed
 - `rockstar.mouse.middle_pressed: boolean` - whether the middle mouse button is pressed
   - these three are getter/setters, so you can set these to true or false to set the state of the mouse button
+- `rockstar.mouse.x: number` - the x coordinate of the mouse
+- `rockstar.mouse.y: number` - the y coordinate of the mouse
+  - these two are also getter/setters
 - `rockstar.mouse.click(button: MouseButton)` - click a mouse button
 
 ### rockstar.keyboard
