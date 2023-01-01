@@ -11,6 +11,7 @@ rockstar APIs reside under `rockstar` in the global table.
 - `rockstar.on(event: string, callback: function)` - register a callback for an event
   - see the events below
   - the callback will get one argument, which is a table of data
+- `rockstar.script_path: string` - the path to the script that is currently running
 
 ### rockstar.screen
 

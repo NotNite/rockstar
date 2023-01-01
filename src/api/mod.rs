@@ -1,4 +1,5 @@
 use mlua::{prelude::LuaFunction, UserData};
+use std::path::{Path, PathBuf};
 
 pub mod events;
 mod keyboard;
@@ -14,16 +15,20 @@ pub struct Rockstar {
     pub keyboard: keyboard::Keyboard,
     pub sound: sound::Sound,
     pub system: system::System,
+
+    pub script_path: PathBuf,
 }
 
 impl Rockstar {
-    pub fn new() -> Self {
+    pub fn new(script_path: &Path) -> Self {
         Self {
             mouse: mouse::Mouse::new(),
             screen: screen::Screen,
             keyboard: keyboard::Keyboard::new(),
             sound: sound::Sound,
             system: system::System,
+
+            script_path: script_path.to_path_buf(),
         }
     }
 }
@@ -35,6 +40,10 @@ impl UserData for Rockstar {
         fields.add_field_method_get("keyboard", |_, rockstar| Ok(rockstar.keyboard.clone()));
         fields.add_field_method_get("sound", |_, rockstar| Ok(rockstar.sound.clone()));
         fields.add_field_method_get("system", |_, rockstar| Ok(rockstar.system.clone()));
+
+        fields.add_field_method_get("script_path", |_, rockstar| {
+            Ok(rockstar.script_path.to_str().unwrap().to_string())
+        });
     }
 
     fn add_methods<'lua, M: mlua::UserDataMethods<'lua, Self>>(methods: &mut M) {

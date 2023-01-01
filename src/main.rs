@@ -2,7 +2,7 @@
 
 use clap::Parser;
 use std::{
-    path::PathBuf,
+    path::{Path, PathBuf},
     sync::{Arc, Mutex},
 };
 
@@ -20,9 +20,9 @@ struct Args {
     repl: bool,
 }
 
-fn setup_lua() -> anyhow::Result<mlua::Lua> {
+fn setup_lua(script_path: &Path) -> anyhow::Result<mlua::Lua> {
     let lua = mlua::Lua::new();
-    let rockstar = api::Rockstar::new();
+    let rockstar = api::Rockstar::new(script_path);
 
     let rockstar_arc = Arc::new(Mutex::new(rockstar));
 
@@ -51,7 +51,7 @@ async fn main() -> anyhow::Result<()> {
     fix_stdout();
 
     let args = Args::parse();
-    let lua = setup_lua()?;
+    let lua = setup_lua(&args.script)?;
 
     let rockstar = {
         let _rockstar = lua.app_data_ref::<Arc<Mutex<api::Rockstar>>>().unwrap();
