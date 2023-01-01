@@ -29,5 +29,15 @@ impl UserData for System {
 
             Ok(files)
         });
+
+        methods.add_function("notify", |_, (title, description): (String, String)| {
+            notify_rust::Notification::new()
+                .summary(&title)
+                .body(&description)
+                .show()
+                .map_err(mlua::Error::external)?;
+
+            Ok(())
+        });
     }
 }

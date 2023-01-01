@@ -44,6 +44,7 @@ rockstar APIs reside under `rockstar` in the global table.
 - `rockstar.system.os: string` - the operating system rockstar is running on
 - `rockstar.system.list_dir(path: string): table` - list the contents of a directory
   - returns an array of `{ name: string, is_dir: boolean }`
+- `rockstar.system.notify(title: string, description: string)` - display a notification
 
 ## custom types
 
