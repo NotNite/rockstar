@@ -1,10 +1,6 @@
 # rockstar
 
-![bocchi from hit anime bocchi the rock](https://cdn.discordapp.com/attachments/546437828767121424/1057030115269283860/image.png)
-
-rockstar is a "lua scripting tool that gives you social anxiety". i like to think of it as an AHK replacement, but with a better language (insert your lua bad joke here)
-
-**rockstar is alpha software** - so far, I'm building this on one machine over my new years vacation. things may break (but please tell me if they do)!
+rockstar is a lua scripting tool. i like to think of it as an AHK replacement, but with a better language (insert your lua bad joke here)
 
 ## using
 

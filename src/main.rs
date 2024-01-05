@@ -62,22 +62,18 @@ async fn main() -> anyhow::Result<()> {
     lua.load(&script).exec_async().await?;
 
     let lua = Arc::new(Mutex::new(lua));
-
-    let mut futures = Vec::new();
-
     let lua_event_loop = Arc::clone(&lua);
-    futures.push(tokio::task::spawn(async move {
-        api::events::run_event_loop(rockstar, lua_event_loop).await;
-    }));
+
+    let thread = std::thread::spawn(move || {
+        api::events::run_event_loop(rockstar, lua_event_loop);
+    });
 
     if args.repl {
         let lua_repl = Arc::clone(&lua);
-        futures.push(tokio::task::spawn(async move {
-            repl::run_repl(lua_repl).await;
-        }));
+        repl::run_repl(lua_repl).await;
+    } else {
+        thread.join().unwrap();
     }
-
-    futures::future::join_all(futures).await;
 
     Ok(())
 }

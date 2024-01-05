@@ -32,8 +32,8 @@ impl UserData for Keyboard {
 
     fn add_methods<'lua, M: mlua::UserDataMethods<'lua, Self>>(methods: &mut M) {
         methods.add_async_function("press", |_, key: String| async move {
-            let cheating =
-                crate::util::string_to_key(key).ok_or(mlua::Error::external("invalid key"))?;
+            let cheating = crate::util::string_to_key(key)
+                .ok_or_else(|| mlua::Error::external("invalid key"))?;
 
             rdev::simulate(&EventType::KeyPress(cheating))
                 .map_err(|_| mlua::Error::external("failed to press key"))?;
